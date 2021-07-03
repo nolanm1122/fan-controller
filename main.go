@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -55,11 +56,8 @@ func cmdHandler(writer http.ResponseWriter, req *http.Request) {
 }
 
 func indexHandler(writer http.ResponseWriter, _ *http.Request) {
-	f, err := ioutil.ReadFile("./index.html")
-	if err != nil {
-		log.Fatal(err)
-	}
-	writer.Write(f)
+	tmpl := template.Must(template.ParseFiles("./index.html"))
+	tmpl.Execute(writer, nil)
 }
 
 func main() {
